@@ -31,7 +31,7 @@ class Net_Address extends Meta {
   }
     
   public function __toString() {
-    if(isset($this->network_obj[0]))
+    if(!isset($this->network_obj[0]))
       $net_str="no network_obj";
     else
       $net_str=(string)$this->network_obj[0];

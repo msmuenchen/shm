@@ -37,7 +37,7 @@ class Host_Interface extends Meta{
   }
     
   public function __toString() {
-    if(isset($this->addr_obj[0]))
+    if(!isset($this->addr_obj[0]))
       $addr_str="no addr_obj";
     else
       $addr_str=(string)$this->addr_obj[0];
