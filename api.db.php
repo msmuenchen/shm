@@ -32,4 +32,16 @@ class DB {
   public static function esc($str) {
     return self::get()->link->real_escape_string($str);
   }
+  
+  //get an array of the columns in a table
+  public static function getTableCols($table) {
+    $q=new DB_Query("SHOW COLUMNS FROM `".self::esc($table)."`");
+    if($q->numRows<1)
+      logger::error("Table %s has no rows?!",$table);
+    $cols=array();
+    while($e=$q->fetch())
+      $cols[]=$e["Field"];
+    $q->free();
+    return $cols;
+  }
 }
