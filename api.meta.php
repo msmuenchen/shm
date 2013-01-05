@@ -129,5 +129,46 @@ class Meta {
     $q->free();
     return $ret;
   }
+  
+  //get all objects which have the column $prop == $val; $mode can also be set to LIKE
+  public static function getByProperty($prop,$val,$mode="=") {
+    $ret=array();
+    
+    $childclass=get_called_class();
+    
+    //get the VA map
+    if(!isset($childclass::$va_map) || !is_array($childclass::$va_map))
+      logger::error("can't find VA map for %s",$childclass);
+    if(!isset($childclass::$va_table))
+      logger::error("can't find VA table for %s",$childclass);
+    $va_map=$childclass::$va_map;
+    $va_table=$childclass::$va_table;    
 
+    $cols=DB::getTableCols($va_table);
+    if(array_search($prop,$cols)===false)
+      logger::error("%s is not in the column list of %s",$prop,$va_table);
+
+    //fetch the object's data from DB
+    $q=new DB_Query("select * from `$va_table` where `$prop` $mode ?",$val);
+    $entries=$q->numRows;
+    if($entries<1)
+      return $ret;
+    
+    $inst=new ReflectionClass($childclass);
+    while($entry=$q->fetch()) {
+      
+      //parse the VA map
+      $ctor_args=array();
+      foreach($va_map as $member=>$db_field) {
+        if(!isset($entry[$db_field]))
+          logger::error("Mapping entry for classmember %s points to DB field %s, but this did not get returned in select",$member,$db_field);
+        $ctor_args[]=$entry[$db_field];
+        logger::trace("Mapping DB %s (value '%s') to classmember %s and CTOR id %d for %s",$db_field,$entry[$db_field],$member,sizeof($ctor_args),$childclass);
+      }  
+      $ret[]=$inst->newInstanceArgs($ctor_args);
+    }
+    
+    $q->free();
+    return $ret;    
+  }
 }
