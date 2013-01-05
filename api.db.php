@@ -28,4 +28,8 @@ class DB {
   public function getError() {
     return sprintf("%s (%d)",$this->link->error,$this->link->errno);
   }
+  
+  public static function esc($str) {
+    return self::get()->link->real_escape_string($str);
+  }
 }
