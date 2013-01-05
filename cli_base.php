@@ -29,9 +29,15 @@ function sh_draw_text_table($table,$level=0) {
   //stringify objects and arrays of objects as cell contents
   foreach($table as $rk=>$row) {
     $cellidx=0;
+    //translate Objects to arrays
     if(is_object($row)) {
 //      echo "LV $level - row $rk is an object\n";
       $row=(array)$row;
+      $table[$rk]=$row;
+    }
+    //translate strings into arrays (useful when passed array("a","b","c"))
+    if(!is_array($row)) {
+      $row=array("key"=>$rk,"value"=>$row);
       $table[$rk]=$row;
     }
     foreach($row as $ck=>$cell) {
