@@ -11,8 +11,9 @@ function sh_cli_display_log($level,$msg,$trace,$caller) {
   echo "Log entry in $caller (lv $level): $msg\n";
   if($level <= $config["api"]["debug_trace_level"])
     echo "Trace data:$trace\n";
-  if($level==SH_ERROR)
-    exit(1);
+  if($level==SH_ERROR) {
+    throw new Exception("Log entry in $caller (lv $level): $msg\n");
+  }
 }
 logger::register_handler("sh_cli_display_log");
 
@@ -88,4 +89,9 @@ function main($ac,$av) {
   return 0;
 }
 
-exit(main($argc,$argv));
+try {
+  $rc=main($argc,$argv);
+  exit($rc);
+} catch(Exception $e) {
+  echo "Uncaught exception ".$e->getMessage()."\n";
+}
