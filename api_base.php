@@ -137,4 +137,12 @@ spl_autoload_register(function ($class) {
   require_once($file);
 });
 
-?>
+//check if class file exists to avoid autoloader failure (this does NOT check if the class is in the file!)
+function sh_class_exists($class) {
+  global $config;
+  $class = strtolower(preg_replace('/[^-a-zA-Z0-9_]/', '', $class));
+  $file=$config["dir"]["api_basedir"]."api.$class.php";
+  logger::trace("Checking for existance of class %s",$class);
+
+  return is_file($file);
+}
