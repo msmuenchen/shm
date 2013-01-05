@@ -14,6 +14,10 @@ class Host_Interface extends Meta{
   //the OS name for the interface (e.g. eth0 on Linux, "LAN-Verbindung" on Windows)
   public $name;
   
+  //type: address gets assigned by DHCP to this mac address
+  const IF_DHCP=1;
+  //type: address gets assigned statically to this interface name
+  const IF_STATIC=1;
   //value-assign maps for Meta getById/commitById
   //1:1 loadById
   public static $va_map=array("id"=>"id","name"=>"os_name","mac"=>"hw_addr","type"=>"type");
