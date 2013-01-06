@@ -61,6 +61,8 @@ class DB_Query {
       $ret=call_user_func_array(array($this->stmt,"bind_param"),$params_ref);
       if($ret===false)
         logger::error("MySQLi stmt_bind_param failed for '%s': %s",$query,$this->dbobj->getError());
+      
+      logger::trace("Query is now %s %s",$query,$args_str);
     }
     
     //Execute
