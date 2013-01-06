@@ -173,4 +173,55 @@ class Meta {
     $q->free();
     return $ret;    
   }
+  
+  //get one or more elements by one of their child elements
+  //like Host::getByChild("Host_Interface",3") gets all Hosts which have the Interface with ID=3
+  public static function getByChild($cc,$id) {
+    $ret=array();
+    
+    $childclass=get_called_class();
+    logger::trace("Getting all %s objects which have the object %s with ID %d as children",$childclass,$cc,$id);
+
+    //Security
+    if(!is_numeric($id))
+      logger::error("Supplied id '%s', which is not a numeric!",$id);
+    if(!sh_class_exists($cc))
+      logger::error("Supplied refclass '%s' which does not exist, not even in autloader",$cc);
+
+    //get the VA map
+    if(!isset($childclass::$va_external) || !is_array($childclass::$va_external))
+      logger::error("can't find VA external map for %s",$childclass);
+    $va_external=$childclass::$va_external;
+    
+    //Check if the referencing class is inside the list; if yes, load config
+    $found=false;
+    foreach($va_external as $varname=>$data) {
+      if(!isset($data["class"])) {
+        logger::warn("Class %s did not specify VA external class for %s",$childclass,$varname);
+        continue;
+      }
+      if($data["class"]==$cc) {
+        $found=true;
+        break;
+      }
+    }
+    if(!$found)
+      logger::error("%s is not in the VA external list of %s",$cc,$childclass);
+    $extdata=$va_external[$varname];
+
+    //fetch the object IDs
+    $q=new DB_Query("select * from `{$extdata['table']}` where `{$extdata['external_key']}`=?",$id);
+    $entries=$q->numRows;
+    if($entries==0) {
+      logger::trace("Expected 1 or more entries, got %d",$entries);
+      return $ret;
+    }
+    
+    //get the data
+    while($entry=$q->fetch()) {
+      $ret[]=call_user_func("$childclass::getById",$entry[$extdata["own_key"]]);
+    }
+    $q->free();
+    return $ret;
+  }
 }

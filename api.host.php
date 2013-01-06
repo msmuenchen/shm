@@ -22,7 +22,7 @@ class Host extends Meta{
   //1:1 loadById
   public static $va_map=array("id"=>"id","name"=>"name","type"=>"type");
   //child-objects of this object
-  public static $va_external=array("interface_obj"=>array("class"=>"Host_Interface","table"=>"link_hosts_interfaces","own_key"=>"hosts_id","external_key"=>"interface_id"));
+  public static $va_external=array("interface_objs"=>array("class"=>"Host_Interface","table"=>"link_hosts_interfaces","own_key"=>"host_id","external_key"=>"interface_id"));
   //Objects which can reference this object (used to build a "This object is used in xyz"-style list)
   public static $va_references=array();
   public static $va_table="hosts";
