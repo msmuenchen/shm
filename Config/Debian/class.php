@@ -3,5 +3,5 @@
 
 //Get config files valid throughout Debian
 
-class Config_Debian extends Config {
+class Config_Debian extends Config_Linux {
 }
