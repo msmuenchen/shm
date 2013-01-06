@@ -142,7 +142,7 @@ function sh_class_exists($class) {
   global $config;
   $class = strtolower(preg_replace('/[^-a-zA-Z0-9_]/', '', $class));
   $file=$config["dir"]["api_basedir"]."api.$class.php";
-  logger::trace("Checking for existance of class %s",$class);
+  logger::trace("Checking for existence of class %s",$class);
 
   return is_file($file);
 }
