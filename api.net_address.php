@@ -14,7 +14,7 @@ class Net_Address extends Meta {
   //1:1 loadById
   public static $va_map=array("id"=>"id","addr"=>"addr");
   //child-objects of this object
-  public static $va_external=array("network_obj"=>array("class"=>"Net_Network","table"=>"link_net_addresses_network","own_key"=>"address_id","external_key"=>"network_id"));
+  public static $va_external=array("network_obj"=>array("class"=>"Net_Network","table"=>"link_net_addresses_networks","own_key"=>"address_id","external_key"=>"network_id"));
   //Objects which can reference this object (used to build a "This object is used in xyz"-style list)
   public static $va_references=array("Host_Interface"=>array("table"=>"link_hosts_interfaces_net_addresses","own_key"=>"address_id","external_key"=>"interface_id"));
   public static $va_table="net_addresses";
