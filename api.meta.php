@@ -103,7 +103,7 @@ class Meta {
     //Security
     if(!is_numeric($id))
       logger::error("Supplied id '%s', which is not a numeric!",$id);
-    if(!class_exists($refclass))
+    if(!sh_class_exists($refclass))
       logger::error("Supplied refclass '%s' which does not exist, not even in autloader",$refclass);
 
     //get the VA map
