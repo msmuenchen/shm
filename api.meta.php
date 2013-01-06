@@ -91,7 +91,9 @@ class Meta {
     $q->free();
     return $ret;
   }
+
   //load referencing objects from DB
+  //like Host_Interface::getByReference("Host",3) gets all Host_Interface which are child elements of the Host with ID 3
   public static function getByReference($refclass, $id) {
     $ret=array();
     
