@@ -3,6 +3,6 @@
 
 //Get debian 7-compatible config files
 
-class Config_Debian7 extends Config_Debian {
+class Config_Debian_7 extends Config_Debian {
 
 }

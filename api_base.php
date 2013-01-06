@@ -128,8 +128,8 @@ class logger {
 //API autloader
 spl_autoload_register(function ($class) {
   global $config;
-  $class = strtolower(preg_replace('/[^-a-zA-Z0-9_]/', '', $class));
-  $file=$config["dir"]["api_basedir"]."api.$class.php";
+  $class = preg_replace('/[^-a-zA-Z0-9_]/', '', $class);
+  $file=str_replace("_","/",$class)."/class.php";
   logger::trace("Autoloader trying to load class %s",$class);
 
   if(!is_file($file))
@@ -140,8 +140,8 @@ spl_autoload_register(function ($class) {
 //check if class file exists to avoid autoloader failure (this does NOT check if the class is in the file!)
 function sh_class_exists($class) {
   global $config;
-  $class = strtolower(preg_replace('/[^-a-zA-Z0-9_]/', '', $class));
-  $file=$config["dir"]["api_basedir"]."api.$class.php";
+  $class = preg_replace('/[^-a-zA-Z0-9_]/', '', $class);
+  $file=str_replace("_","/",$class)."/class.php";
   logger::trace("Checking for existence of class %s",$class);
 
   return is_file($file);
