@@ -24,6 +24,10 @@ function sh_draw_text_table($table,$level=0) {
 //    echo "LV $level - converting object to array\n";
     $table=array($table);
   }
+  //check if it's a 0-sized array
+  if(is_array($table) && sizeof($table)==0) {
+    $table=array("-" => "empty array");
+  }
   $ctbl=new Console_Table();
   $headers=array();
   //stringify objects and arrays of objects as cell contents
