@@ -3,6 +3,10 @@
 
 //Parent class for objects
 class Meta {
+  //is this the primary object?
+  //only useful for objects acquired through getByReference
+  public $isPrimary=false;
+  
   //allow for multiple constructors
   function __construct() {
     logger::trace("Meta CTOR called for class %s",get_called_class());
@@ -126,7 +130,11 @@ class Meta {
     
     //get the data
     while($entry=$q->fetch()) {
-      $ret[]=call_user_func("$childclass::getById",$entry[$refdata["own_key"]]);
+      $inst=$ret[]=call_user_func("$childclass::getById",$entry[$refdata["own_key"]]);
+      if(isset($entry["is_primary"]) && $entry["is_primary"]==1) {
+        logger::trace("Object %d is set as primary",$inst->id);
+        $inst->isPrimary=true;
+      }
     }
     $q->free();
     return $ret;
