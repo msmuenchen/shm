@@ -49,6 +49,10 @@ function sh_draw_text_table($table,$level=0) {
     }
     foreach($row as $ck=>$cell) {
       $headers[$cellidx++]=$ck;
+      if(is_bool($cell)) {
+        $cell="(b)".(($cell)? "true":"false");
+        $table[$rk][$ck]=$cell;
+      }
       if(!is_string($cell)) {
 //        echo "LV $level - $rk:$ck has type ".gettype($cell)."\n";
       }
