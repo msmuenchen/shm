@@ -22,7 +22,7 @@ require("Console/Table.php");
 function sh_draw_text_table($table,$level=0) {
   if(is_object($table)) {
 //    echo "LV $level - converting object to array\n";
-    $table=array($table);
+    $table=array(array("id"=>get_class($table)),(array)$table);
   }
   //check if it's a 0-sized array
   if(is_array($table) && sizeof($table)==0) {
@@ -35,9 +35,12 @@ function sh_draw_text_table($table,$level=0) {
     $cellidx=0;
     //translate Objects to arrays
     if(is_object($row)) {
-//      echo "LV $level - row $rk is an object\n";
+//      echo "LV $level - row $rk is an object: ".print_r($row,true)."\n";
+      $ctbl->addRow(array("id"=>get_class($row)));
+      $ctbl->addSeparator();
       $row=(array)$row;
       $table[$rk]=$row;
+//      echo" LV $level - row is now: ".print_r($row,true)."\n";
     }
     //translate strings into arrays (useful when passed array("a","b","c"))
     if(!is_array($row)) {
@@ -51,7 +54,7 @@ function sh_draw_text_table($table,$level=0) {
       }
       if(is_object($cell)) {
 //        echo "LV $level - Calling __toArray on cell $rk:$ck\n";
-        $table[$rk][$ck]=(array)$cell;
+        $table[$rk][$ck]=array(array("id"=>get_class($cell)),(array)$cell);
       }
       if(is_array($cell)) {
 //        echo "LV $level -de-array'ing $rk:$ck\n";
