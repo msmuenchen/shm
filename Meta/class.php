@@ -42,7 +42,8 @@ class Meta {
     if($entries!=1)
       logger::error("Expected 1 entry, got %d",$entries);
     $entry=$q->fetch();
-    
+print_r($entry);    
+echo isset($entry["parent_os_id"]);
     //parse the VA map
     $ctor_args=array();
     foreach($va_map as $member=>$db_field) {
@@ -97,7 +98,7 @@ class Meta {
   }
 
   //load referencing objects from DB
-  //like Host_Interface::getByReference("Host",3) gets all Host_Interface which are child elements of the Host with ID 3
+  //like Machine_Interface::getByReference("Machine",3) gets all Machine_Interface which are child elements of the Machine with ID 3
   public static function getByReference($refclass, $id) {
     $ret=array();
     
@@ -183,7 +184,7 @@ class Meta {
   }
   
   //get one or more elements by one of their child elements
-  //like Host::getByChild("Host_Interface",3") gets all Hosts which have the Interface with ID=3
+  //like Machine::getByChild("Machine_Interface",3") gets all Machines which have the Interface with ID=3
   public static function getByChild($cc,$id) {
     $ret=array();
     
