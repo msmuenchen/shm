@@ -42,12 +42,11 @@ class Meta {
     if($entries!=1)
       logger::error("Expected 1 entry, got %d",$entries);
     $entry=$q->fetch();
-print_r($entry);    
-echo isset($entry["parent_os_id"]);
+
     //parse the VA map
     $ctor_args=array();
     foreach($va_map as $member=>$db_field) {
-      if(!isset($entry[$db_field]))
+      if(!array_key_exists($db_field,$entry))
         logger::error("Mapping entry for classmember %s points to DB field %s, but this did not get returned in select",$member,$db_field);
       $ctor_args[]=$entry[$db_field];
       logger::trace("Mapping DB %s (value '%s') to classmember %s and CTOR id %d for %s",$db_field,$entry[$db_field],$member,sizeof($ctor_args),$childclass);
@@ -85,7 +84,7 @@ echo isset($entry["parent_os_id"]);
       //parse the VA map
       $ctor_args=array();
       foreach($va_map as $member=>$db_field) {
-        if(!isset($entry[$db_field]))
+        if(!array_key_exists($db_field,$entry))
           logger::error("Mapping entry for classmember %s points to DB field %s, but this did not get returned in select",$member,$db_field);
         $ctor_args[]=$entry[$db_field];
         logger::trace("Mapping DB %s (value '%s') to classmember %s and CTOR id %d for %s",$db_field,$entry[$db_field],$member,sizeof($ctor_args),$childclass);
@@ -171,7 +170,7 @@ echo isset($entry["parent_os_id"]);
       //parse the VA map
       $ctor_args=array();
       foreach($va_map as $member=>$db_field) {
-        if(!isset($entry[$db_field]))
+        if(!array_key_exists($db_field,$entry))
           logger::error("Mapping entry for classmember %s points to DB field %s, but this did not get returned in select",$member,$db_field);
         $ctor_args[]=$entry[$db_field];
         logger::trace("Mapping DB %s (value '%s') to classmember %s and CTOR id %d for %s",$db_field,$entry[$db_field],$member,sizeof($ctor_args),$childclass);
