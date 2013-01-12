@@ -21,7 +21,7 @@ class OS extends Meta {
   //child objects
   public static $va_external=array("self"=>array("class"=>"OS","table"=>"os","own_key"=>"parent_os_id","external_key"=>"id"));
   //parent objects
-  public static $va_references=array("OS"=>array("table"=>"os","own_key"=>"id","external_key"=>"parent_os_id"));
+  public static $va_references=array("OS"=>array("table"=>"os","own_key"=>"id","external_key"=>"parent_os_id"),"Host"=>array("table"=>"hosts","own_key"=>"os_id","external_key"=>"id"));
   
   public function __construct5($id,$name,$version,$classname,$parent_id) {
     $this->id=$id;
