@@ -22,8 +22,8 @@ class Host extends Meta {
   public function __construct3($id,$key,$os_id) {
     $this->id=$id;
     $this->key=$key;
-//    if($parent_id!==null)
-//      $this->parent=array(OS::getById($parent_id));
+    if($os_id!==null)
+      $this->os=array(OS::getById($os_id));
   }  
   public function toString() {
     if($this->os===null)
